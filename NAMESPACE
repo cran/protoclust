@@ -1,0 +1,6 @@
+useDynLib("protoclust")
+export(protoclust,
+       protocut,
+       plotwithprototypes)
+
+S3method("plot", "protoclust")
