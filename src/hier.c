@@ -4,7 +4,6 @@ Minimax linkage agglomerative clustering.
 
 #include <R.h>
 #include <stdlib.h>
-#include <time.h>
 #define BIGGEST 1e200
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -27,7 +26,6 @@ double completelink(double *dmax, int n,Cluster *G, int iG, Cluster *H, int iH);
 
 void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *order, int *protos)
 {
-  double mind;// minimum distance
   int i, j, k, ii, imerge, jmerge, reverse;
   int n = *ndim;
   double *dd = malloc((n*(n-1)/2)*sizeof(double));
@@ -54,8 +52,6 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
   int nn,end = -1; // index of end of nnchain
   int inchain[n];// indicates whether element i is in current chain
 
-  time_t t1,t2;
-  double min_time=0,update_time=0,other_time=0;
   double old;
   int nochange=0;
 
@@ -96,7 +92,7 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
 	      break;
 	  nnchain[0] = i;
 	  if(*verbose)
-	    printf("\nStarting a new chain at %d.\n",i+1);
+	    Rprintf("\nStarting a new chain at %d.\n",i+1);
 	  end = 0;
 	}
       
@@ -120,10 +116,10 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
 	}
       if(*verbose)
 	{
-	  printf(" NN-Chain: ");
+	  Rprintf(" NN-Chain: ");
 	  for(i = 0; i <= end; i++)
-	    printf("%d ",nnchain[i]+1);
-	  printf("\n");
+	    Rprintf("%d ",nnchain[i]+1);
+	  Rprintf("\n");
 	}
       if(nnchain[end] < nnchain[end-1])
 	{
@@ -153,7 +149,7 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
       ii = lt(imerge,jmerge,n);
       height[k] = dd[ii];
       if(*verbose)
-	printf("  Merged reciprocal nearest neighbor pair at height %g\n",height[k]);
+	Rprintf("  Merged reciprocal nearest neighbor pair at height %g\n",height[k]);
       reverse = 0;
       
       if(clustLabel[imerge] > clustLabel[jmerge])
@@ -246,7 +242,7 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
     
   // sort heights and "o = order(height)" (in R speak)
   rsort_with_index(height,o,n-1);
-  double h = -1;
+
   // if there are ties, want indices ordered (to match R's convention).
   int count;
   for(i = 0; i < n-1; i++)
@@ -425,11 +421,11 @@ double minimaxlink(double *dmax, int n,
 
   // temporarily combine clusters
   tG->next = H;
-  int i,j,ii;
+  int i;
   double dmm;
   double *dmaxGH = malloc((nGH)*sizeof(double));
 
-  Cluster *cur1, *cur2;
+  Cluster *cur1;
   cur1 = G;
   for(i = 0; i < nGH; i++)
     {
@@ -507,38 +503,37 @@ void printLT(double *d,int n,int* clustLabel)
   int i,j;
   
   for(j = 0; j < n; j++)
-    printf("\t%d",j);
-  printf("\n");
+    Rprintf("\t%d",j);
+  Rprintf("\n");
   for(i = 1; i < n; i++)
     {
-      printf("%d\t",i);
+      Rprintf("%d\t",i);
       if(clustLabel[i]==0)
 	{
 	  for(j = 0; j < i; j++)
-	    printf("*\t");
-	  printf("\n");
+	    Rprintf("*\t");
+	  Rprintf("\n");
 	  continue;
 	}
       for(j = 0; j < i; j++)
 	{
 	  if(clustLabel[j]==0)
-	    printf("*\t");
+	    Rprintf("*\t");
 	  else
-	    printf("%.2g\t",d[lt(i,j,n)]);
+	    Rprintf("%.2g\t",d[lt(i,j,n)]);
 	}
-      printf("\n");
+      Rprintf("\n");
     }
 }
 
 void printCluster(Cluster * G)
 {
-  int i;
   while(G!=NULL)
     {
-      printf("%d\t",G->i);
+      Rprintf("%d\t",G->i);
       G = G->next;
     }
-  printf("\n");
+  Rprintf("\n");
 }
 
 void printMatrix(double *dmax,int n,int *clustLabel)
@@ -549,15 +544,17 @@ void printMatrix(double *dmax,int n,int *clustLabel)
       for(j = 0; j < n; j++)
 	{
 	  if(clustLabel[j]==0)
-	    printf("*\t");
+	    Rprintf("*\t");
 	  else
-	    printf("%.2g\t",dmax[n*i + j]);
+	    Rprintf("%.2g\t",dmax[n*i + j]);
 	}
-      printf("\n");
+      Rprintf("\n");
     }
 }
 
+/*
 int main(int argc, char** argv)
 {
   return 1;
 }
+*/

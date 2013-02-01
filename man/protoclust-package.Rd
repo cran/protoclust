@@ -18,7 +18,7 @@ LazyLoad: \tab yes\cr
 \author{
 Jacob Bien and Rob Tibshirani
 
-Maintainer: Jacob Bien <jbien@stanford.edu>
+Maintainer: Jacob Bien <jbien@cornell.edu>
 }
 \references{
 Bien, J., and Tibshirani, R. (2011), "Hierarchical Clustering with

@@ -1,0 +1,10 @@
+64b670cc2b0b68af29e9cd5716402e80 *DESCRIPTION
+c2ace5054d6bd33d1f94421d7e90d98a *NAMESPACE
+06a748c2ca14a6d40ce54ca99d864b20 *R/plotfunctions.R
+8fa50884b7b5f9d63baa46a525facdaf *R/protoclust.R
+5fc80df433080e141e931159bfdca0ae *R/protocut.R
+52cc2f3aeb4cc8157263db9b5dee18ad *man/plotwithprototypes.Rd
+e87f4e404e733b351a65cdca721064e2 *man/protoclust-package.Rd
+4cb0da5fc8410eb835f3d19a455a12d3 *man/protoclust.Rd
+16f10d0749f612d93cf9028e57148866 *man/protocut.Rd
+e51d44c86466d98bedbdef638f376528 *src/hier.c
