@@ -39,7 +39,7 @@ plotwithprototypes <- function(hc, imerge=-seq(n), labels=NULL, bgcol="white", f
   leaf <- -imerge[imerge < 0]
   leaflabels <- rep("", n)
   leaflabels[leaf] <- labels[leaf] # only draw leaves specified by imerge
-  plclust(hc, labels=leaflabels, ...)
+  stats:::plot.hclust(hc, labels=leaflabels, ...)
   # draw interior node labels:
   imerge <- imerge[imerge > 0]
   if (length(imerge) != 0) {
