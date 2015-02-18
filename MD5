@@ -1,4 +1,4 @@
-57140bb2910339073fb7331e782a405d *DESCRIPTION
+fe44d66b1bb2963235a52374875c1347 *DESCRIPTION
 d2016cdbc5575cf4ebd4b6bd82728ca1 *NAMESPACE
 f56b8cadc88930bf62dc3f414589010c *R/plotfunctions.R
 58932aeaaca4a6b2de855ab1c9ab42b3 *R/protoclust-package.R
@@ -8,4 +8,4 @@ f56b8cadc88930bf62dc3f414589010c *R/plotfunctions.R
 b02bbdc0abe27f0b5c4440d024065e3e *man/protoclust-package.Rd
 85a9dfa044993dd20fc52df7287acf30 *man/protoclust.Rd
 f86d353f52013d7dd10132bac4c65737 *man/protocut.Rd
-4180ca75de95650b38c5db48bfac2715 *src/hier.c
+92b2b95949e34dd186f5780c88eb6f3c *src/hier.c

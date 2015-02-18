@@ -27,22 +27,22 @@ double completelink(double *dmax, int n,Cluster *G, int iG, Cluster *H, int iH);
 void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *order, int *protos) {
   int i, j, k, ii, imerge, jmerge, reverse;
   int n = *ndim;
-  double dd[n*(n-1)/2];
+  double *dd = malloc((n*(n-1)/2)*sizeof(double));
   // dd contains the inter-cluster distances as a lower triangular matrix
   
-  double dmax[n*n];
+  double *dmax = malloc((n*n)*sizeof(double));
   // dmax[n*i + j] = max_{l\in C_j}d(i,l) where C_j is the jth cluster
 
-  int un_protos[n];
-  int un_merge[n*2];
+  int *un_protos = malloc(n*sizeof(int));
+  int *un_merge = malloc((n*2)*sizeof(int));
   // versions of the outputs "protos" and "merge"... except unordered by height
   // these will be ordered based on the nearest-neighbor chain order
   // at the end, we will convert from un_protos to protos and likewise for merge
 
 
   // each cluster will be stored as a linked list between clusters[i] and tails[i]
-  Cluster* clusters[n];
-  Cluster* tails[n];
+  Cluster** clusters = malloc(n*sizeof(Cluster *));
+  Cluster** tails = malloc(n*sizeof(Cluster *));
   
   int clustLabel[n];
   int clustSize[n];
@@ -309,6 +309,12 @@ void hier(double *d, int *ndim, int *verbose, int *merge, double *height, int *o
     free(cur);
     cur = curnext;
   }
+  free(dd);
+  free(dmax);
+  free(un_protos);
+  free(un_merge);
+  free(clusters);
+  free(tails);
 }
 
 // returns the nearest neighbor cluster of cluster i that is not 
