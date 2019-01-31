@@ -16,6 +16,15 @@ innernodepositions <- function(hc) {
   return(pos)
 }
 
+#' Plot Dendrogram
+#' 
+#' Calls \code{\link{plotwithprototypes}}, which allows one to add prototype
+#' labels to the dendrogram.
+#' 
+#' @param x a protoclust object
+#' @param ... additional arguments to be passed to 
+#'        \code{\link{plotwithprototypes}}
+#' @export
 plot.protoclust <- function(x, ...) {
   plotwithprototypes(x, ...)
 }
@@ -56,9 +65,8 @@ plot.protoclust <- function(x, ...) {
 #' @author Jacob Bien and Rob Tibshirani
 #' @seealso \code{\link{protoclust}}, \code{\link{protocut}}
 #' @references Bien, J., and Tibshirani, R. (2011), "Hierarchical Clustering
-#' with Prototypes via Minimax Linkage," accepted for publication in \emph{The
-#' Journal of the American Statistical Association}, DOI:
-#' 10.1198/jasa.2011.tm10183.
+#' with Prototypes via Minimax Linkage," \emph{The Journal of the American 
+#' Statistical Association}, 106(495), 1075-1084.
 #' @keywords cluster
 #' @examples
 #' 
@@ -95,6 +103,12 @@ plotwithprototypes <- function(hc, imerge=-seq(n), labels=NULL, bgcol="white", f
   # Uses plot.hclust  imerge controls which leaves and interior nodes to label.
   if (!inherits(hc, "protoclust"))
     stop("Must input object of class protoclust.")
+  additional_arguments <- list(...)
+  for (arg in c("imerge", "col", "font"))
+  if (!is.null(additional_arguments[[arg]])) {
+    assign(arg, additional_arguments[[arg]])
+    additional_arguments[arg] <- NULL
+  }
   n <- length(hc$order)
   stopifnot(imerge < n & imerge >= -n)
   # set labels:
@@ -109,9 +123,11 @@ plotwithprototypes <- function(hc, imerge=-seq(n), labels=NULL, bgcol="white", f
   leaf <- -imerge[imerge < 0]
   leaflabels <- rep("", n)
   leaflabels[leaf] <- labels[leaf] # only draw leaves specified by imerge
-  hhc=hc
-  class(hhc)="hclust"
-  plot(hhc, labels=leaflabels, ...)
+  hhc <- hc
+  class(hhc) <- "hclust"
+  plot_args <- list(hhc, labels = leaflabels)
+  plot_args <- c(plot_args, additional_arguments)
+  do.call(plot, plot_args)
   # draw interior node labels:
   imerge <- imerge[imerge > 0]
   if (length(imerge) != 0) {
